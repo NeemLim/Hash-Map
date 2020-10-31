@@ -169,9 +169,10 @@ public:
 	int allCount(list<T> linkedList[], int bucketNum)
 	{
 		int countSum = 0;
+
 		for (int i = 0; i < bucketNum; i++)
 		{
-			countSum += linkedList[bucketNum].count();
+			countSum += linkedList[i].count();
 		}
 
 		return countSum;
@@ -185,7 +186,8 @@ int main()
 	string itemValue;
 	int searchPos = 0,
 		bucketNum = 10,
-		bucketPos = 0;
+		bucketPos = 0,
+		allCount = 0;
 	do
 	{
 		char choice = 0;
@@ -223,15 +225,14 @@ int main()
 					getline(cin, itemValue);
 					bucketPos = hashMap.getBucketPos(itemValue, bucketNum);
 					bucket[bucketPos].addItem(itemValue);
-					cout << bucket[bucketPos].getValue(1);
 				}
 				GetAsyncKeyState; //Gets the current pressed key from the user.
 			}
 			break;
 
 		case '2':	//Count
-			itemValue = hashMap.allCount(bucket, bucketNum);
-			cout << "The total count of elements = " << itemValue << endl;
+			allCount = hashMap.allCount(bucket, bucketNum);
+			cout << "The total count of elements = " << allCount << endl;
 			break;
 
 			//case '2':	//Search
@@ -288,10 +289,10 @@ int main()
 			//	cout << "\n hashMap is now clear, all elements deleted successfully\n";
 			//	break;
 
-			//case '9':	//Exit
-			//	cout << endl << "Successfully exited the program.\n";
-			//	return 0;
-			//	break;
+		case '9':	//Exit
+			cout << endl << "Successfully exited the program.\n";
+			return 0;
+			break;
 		}
 		cout << endl;
 		system("pause");
