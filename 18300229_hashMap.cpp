@@ -174,8 +174,21 @@ public:
 		{
 			countSum += linkedList[i].count();
 		}
-
 		return countSum;
+	}
+	void search(list<T> linkedList[], T searchQuery, int bucketNum)
+	{
+		int row = getBucketPos(searchQuery, bucketNum),
+			column = linkedList[row].getPosition(searchQuery);
+
+		if (column > -1)
+		{
+			cout << "\nElement found" << endl;
+			cout << " (X) Column --> " << column << endl;
+			cout << " (Y) Row --> " << row << endl;
+		}
+		else
+			cout << "Element not found";
 	}
 };
 
@@ -198,7 +211,7 @@ int main()
 		{
 			cout << endl << "Choose an option" << endl;
 			cout << "[1] Add data to the collection." << endl;
-			cout << "[2] Search value in the collection." << endl;
+			cout << "[2] Count total elements" << endl;
 			cout << "[3] Show value according to element's position." << endl;
 			cout << "[4] Show the elements' count." << endl;
 			cout << "[5] Show all elements in the list." << endl;
@@ -233,6 +246,11 @@ int main()
 		case '2':	//Count
 			allCount = hashMap.allCount(bucket, bucketNum);
 			cout << "The total count of elements = " << allCount << endl;
+			break;
+
+		case '3': //Search
+			cout << "Input the value of the element you wish to search: "; getline(cin, itemValue);
+			hashMap.search(bucket, itemValue, bucketNum);
 			break;
 
 			//case '2':	//Search
