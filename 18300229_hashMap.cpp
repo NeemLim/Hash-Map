@@ -169,6 +169,7 @@ public:
 template <class T>
 class cHash				//Controller Class.
 {
+	int mbucketNum = 10;
 	int encode(T uncodedStr)	//casts each character into int and returns the sum.
 	{
 		int code = 0;
@@ -177,42 +178,41 @@ class cHash				//Controller Class.
 		return code;
 	}
 public:
-	int getBucketPos(T uncodedStr, int bucketNum)	//returns
+	int getBucketPos(T uncodedStr)	//returns
 	{
-		int bucketPos = encode(uncodedStr) % bucketNum;
+		int bucketPos = encode(uncodedStr) % mbucketNum;
 		return bucketPos;
 	}
-	int allCount(list<T> linkedList[], int bucketNum)
+	int allCount(list<T> linkedList[])
 	{
 		int countSum = 0;
 
-		for (int i = 0; i < bucketNum; i++)
+		for (int i = 0; i < mbucketNum; i++)
 		{
 			countSum += linkedList[i].count();
 		}
 		return countSum;
 	}
-	//Pos search(list<T> linkedList[], int(*getBucketPos)(T uncodedStr, int bucketNum)) //Calls function as argument
-	Coordinate search(list<T> linkedList[], T searchQuery, int bucketNum)
+	Coordinate search(list<T> linkedList[], T searchQuery)
 	{
 		Coordinate point;
 
-		point.y = getBucketPos(searchQuery, bucketNum);			//Gets row (bucket)
+		point.y = getBucketPos(searchQuery);			//Gets row (bucket)
 		point.x = linkedList[point.y].getPosition(searchQuery);		//Gets column
 
 		return point;
 	}
-	bool erase(list<T> linkedList[], T searchQuery, int bucketNum)
+	bool erase(list<T> linkedList[], T searchQuery)
 	{
-		Coordinate elementCoord = search(linkedList, searchQuery, bucketNum); //Calls search function
+		Coordinate elementCoord = search(linkedList, searchQuery); //Calls search function
 		int row = elementCoord.y,
 			column = elementCoord.x;
 
 		return linkedList[row].deleteParticular(column); //delete particular returns bool value
 	}
-	bool checkEmpty(list<T> linkedList[], int bucketNum)
+	bool checkEmpty(list<T> linkedList[])
 	{
-		if (allCount(linkedList, bucketNum) == 0)
+		if (allCount(linkedList) == 0)
 			return true;
 		return false;
 	}
@@ -224,7 +224,7 @@ int main()
 	list<string> bucket[10];
 	string itemValue;
 	int searchPos = 0,
-		bucketNum = 10,
+		mbucketNum = 10,
 		bucketPos = 0,
 		allCount = 0;
 	Coordinate elementCoord(0, 0);
@@ -263,7 +263,7 @@ int main()
 				{
 					cout << "Add element: ";
 					getline(cin, itemValue);
-					bucketPos = hashMap.getBucketPos(itemValue, bucketNum);
+					bucketPos = hashMap.getBucketPos(itemValue);
 					bucket[bucketPos].addItem(itemValue);
 				}
 				GetAsyncKeyState; //Gets the current pressed key from the user.
@@ -271,19 +271,19 @@ int main()
 			break;
 
 		case '2':	//Count
-			allCount = hashMap.allCount(bucket, bucketNum);
+			allCount = hashMap.allCount(bucket);
 			cout << "The total count of elements = " << allCount << endl;
 
 			break;
 
 		case '3': //Search
-			if (hashMap.checkEmpty(bucket, bucketNum))
+			if (hashMap.checkEmpty(bucket))
 			{
 				cout << "Hash Map is empty." << endl;
 				break;
 			}
 			cout << "Input the value of the element you wish to search: "; getline(cin, itemValue);
-			elementCoord = hashMap.search(bucket, itemValue, bucketNum);
+			elementCoord = hashMap.search(bucket, itemValue);
 			if (elementCoord.x > -1) //If element was found
 			{
 				cout << "\nMatching element." << endl;
@@ -294,7 +294,7 @@ int main()
 				cout << "No matching element.";
 			break;
 		case '4': //Delete.
-			if (hashMap.checkEmpty(bucket, bucketNum))
+			if (hashMap.checkEmpty(bucket))
 			{
 				cout << "Hash Map is empty." << endl;
 				break;
@@ -302,7 +302,7 @@ int main()
 			cout << "Input the value of the element you wish to erase: "; getline(cin, itemValue);
 			{
 				bool elementDeleted;
-				elementDeleted = hashMap.erase(bucket, itemValue, bucketNum);
+				elementDeleted = hashMap.erase(bucket, itemValue);
 				(elementDeleted) ?
 					cout << "Element found and deleted succesfully." << endl
 					:
