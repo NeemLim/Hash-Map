@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <string>
 #include <stdio.h>
+#include <iomanip>
 using namespace std;
 
 template <class T>
@@ -169,8 +170,9 @@ public:
 template <class T>
 class cHash				//Controller Class.
 {
-	int mbucketNum = 10;
-	list<string>* linkedList = new list<string>[mbucketNum];
+private:
+	int mBucketNum = 10;
+	list<string>* linkedList = new list<string>[mBucketNum];
 	int encode(T uncodedStr)	//casts each character into int and returns the sum.
 	{
 		int code = 0;
@@ -178,14 +180,16 @@ class cHash				//Controller Class.
 			code += (int)uncodedStr[i];
 		return code;
 	}
-public:
-
 	int getBucketPos(T uncodedData)	//returns row where data will be stored.
 	{
-		int bucketPos = encode(uncodedData) % mbucketNum;
+		int bucketPos = encode(uncodedData) % mBucketNum;
 		return bucketPos;
 	}
-
+public:
+	int getBucketNum()
+	{
+		return mBucketNum;
+	}
 	void addItem(T uncodedData)
 	{
 		int bucketPos = getBucketPos(uncodedData);
@@ -197,7 +201,7 @@ public:
 	{
 		int countSum = 0;
 
-		for (int i = 0; i < mbucketNum; i++)
+		for (int i = 0; i < mBucketNum; i++)
 		{
 			countSum += linkedList[i].count();
 		}
@@ -226,13 +230,24 @@ public:
 			return true;
 		return false;
 	}
+	void showRow(int rowNum)
+	{
+		int rowItemCount = linkedList[rowNum].count(); //Count of item in said rows.
+		for (int i = 0; i < rowItemCount; i++)
+		{
+			cout << linkedList[rowNum].getValue(i);
+
+			if (i + 1 < rowItemCount)
+				cout << " --> ";	//If ihe next iteration is not the last, show an arrow.
+		}
+	}
 };
 
 int main()
 {
 	cHash<string> hashMap;
+	int bucketNum = hashMap.getBucketNum();
 	string itemValue;
-	int bucketPos = 0;
 	Coordinate elementCoord(0, 0);
 	do
 	{
@@ -315,13 +330,20 @@ int main()
 					cout << "No matching values." << endl;
 			}
 			break;
-
-			//case '5': //Show all items
-			//	if (bucket.checkEmpty())
-			//		break;
-			//	for (int i = 0; i < bucket.count(); i++)
-			//		cout << "Item [" << i + 1 << "] = " << bucket.getValue(i) << endl;
-			//	break;
+		case '5': //Delete.
+			if (hashMap.checkEmpty())
+			{
+				cout << "Hash Map is empty." << endl;
+				break;
+			}
+			for (int i = 0; i < bucketNum; i++)
+			{
+				int nDigits = floor(log10(abs(i + 1))) + 1;
+				cout << "Bucket[" << i + 1 << "]" << right << setw(5 - nDigits) << "= ";
+				hashMap.showRow(i);
+				cout << endl;
+			}
+			break;
 
 		case '9':	//Exit
 			cout << endl << "Successfully exited the program.\n";
