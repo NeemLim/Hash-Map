@@ -149,29 +149,28 @@ public:
 		return false;
 	}
 
-	int encode(string uncodedStr)
+	int encode(string uncodedStr)	//casts each character into int and returns the sum.
 	{
-		int valuePos = getPosition(uncodedStr);
+		int code = 0;
+		for (int i = 0; i < uncodedStr.size(); i++)
+			code += (int)uncodedStr[i];
+		return code;
+	}
 
-		if (valuePos > -1) //If valuePos exists in the list.
-		{
-			int code = 0;
-			for (int i = 0; i < uncodedStr.size(); i++)
-				code += (int)uncodedStr[i];
-			return code;
-		}
-		else
-			cout << "no matching value";
-		return NULL;
+	int getBucketPos(string uncodedStr, int bucketNum)	//returns
+	{
+		int bucketPos = encode(uncodedStr) % bucketNum;
+		return bucketPos;
 	}
 };
 
 int main()
 {
 	list<string> hashMap;
-	int arreglo[10];
 	string dataValue;
-	int searchPos = 0;
+	int searchPos = 0,
+		bucketNum = 0,
+		bucketPos = 10;
 	do
 	{
 		char choice = 0;
@@ -207,12 +206,11 @@ int main()
 				{
 					cout << "Element [" << hashMap.count() + 1 << "]: ";
 					getline(cin, dataValue);
-
+					cout << endl << hashMap.getBucketPos(dataValue, bucketPos);
 					hashMap.addItem(dataValue);
 				}
 				GetAsyncKeyState; //Gets the current pressed key from the user.
 			}
-			cin.ignore();
 			break;
 
 		case '2':	//Search
