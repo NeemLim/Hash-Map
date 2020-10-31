@@ -7,7 +7,7 @@
 using namespace std;
 
 template <class T>
-class List	//Contains the activities of the list.
+class list	//Contains the activities of the list.
 {
 	class Node //Creates or nodes.
 	{
@@ -23,7 +23,7 @@ class List	//Contains the activities of the list.
 	Node* beginning;
 
 public:
-	List()
+	list()
 	{
 		beginning = nullptr;
 	}
@@ -65,24 +65,6 @@ public:
 		}
 		return -1;
 	}
-
-	//void showData()			Shows all element's value and positions		//Not adecuate
-	//{
-	//	Node* cursor = beginning;
-	//	for (int i = 0; i < count(); i = i + 3)
-	//	{
-	//		for (int j = 0; j < 3; j++)
-	//		{
-	//			cout << "Item [" << i + j + 1 << "] = " << cursor->data << endl;
-	//			if (cursor->link == nullptr)
-	//				break;
-	//			cursor = cursor->link;
-	//		}
-	//		if (i + 3 >= count())
-	//			break;
-	//		system("pause");
-	//	}
-	//}
 
 	int count() //Counts the elements in the list.
 	{
@@ -155,6 +137,10 @@ public:
 			beginning = beginning->link;
 			delete erase;
 		}
+
+		int encode(string code)
+		{
+		}
 	}
 
 	bool checkEmpty() //Checks if count is 0.
@@ -170,14 +156,15 @@ public:
 
 int main()
 {
-	List<string> myCollection;
+	list<string> hashMap;
+	int arreglo[10];
 	string dataValue;
 	int searchPos = 0;
 	do
 	{
 		char choice = 0;
 		system("cls");
-		cout << "========Simple Linked List=========" << endl;
+		cout << "========Hash Map=========" << endl;
 
 		do //Loop until correct input
 		{
@@ -206,66 +193,66 @@ int main()
 			{
 				if ((GetAsyncKeyState(VK_LCONTROL)) == false)
 				{
-					cout << "Element [" << myCollection.count() + 1 << "]: ";
+					cout << "Element [" << hashMap.count() + 1 << "]: ";
 					getline(cin, dataValue);
-					myCollection.addItem(dataValue);
+					hashMap.addItem(dataValue);
 				}
 				GetAsyncKeyState; //Gets the current pressed key from the user.
 			}
 			break;
 
-			//case '2':	//Search
-			//	if (myCollection.checkEmpty())
-			//		break;
-			//	cout << "Input the value of the element you wish to search: "; cin >> dataValue;
-			//	(myCollection.getPosition(dataValue) == -1) ?
-			//		cout << "\nNo matches have been found.\n"
-			//		:
-			//		cout << "\n>Matching value found \n";
-			//	break;
-
-			//case '3': //Show Value
-			//	if (myCollection.checkEmpty())
-			//		break;
-			//	cout << "Input the position of the element you wish to search: "; cin >> searchPos;
-			//	(searchPos > myCollection.count() or searchPos <= 0) ?
-			//		cout << "\n>Out of boundaries.\n"
-			//		:
-			//		cout << "\n>Matching value in that postion = " << myCollection.getValue(searchPos - 1) << endl;
-			//	break;
-
-			//case '4': //Count
-			//	if (myCollection.checkEmpty())
-			//		break;
-			//	cout << "\nThe element count is = " << myCollection.count() << " elements.\n";
-			//	break;
-
-		case '5': //Show all items
-			if (myCollection.checkEmpty())
+		case '2':	//Search
+			if (hashMap.checkEmpty())
 				break;
-			for (int i = 0; i < myCollection.count(); i++)
-				cout << "Item [" << i + 1 << "] = " << myCollection.getValue(i) << endl;
+			cout << "Input the value of the element you wish to search: "; cin >> dataValue;
+			(hashMap.getPosition(dataValue) == -1) ?
+				cout << "\nNo matches have been found.\n"
+				:
+				cout << "\n>Matching value found \n";
 			break;
 
-			//case '6': //Update
-			//	if (myCollection.checkEmpty())
-			//		break;
-			//	cout << "Input the value of the element you wish to update: ";  cin >> dataValue;
-			//	myCollection.updateData(dataValue);
-			//	break;
+		case '3': //Show Value
+			if (hashMap.checkEmpty())
+				break;
+			cout << "Input the position of the element you wish to search: "; cin >> searchPos;
+			(searchPos > hashMap.count() or searchPos <= 0) ?
+				cout << "\n>Out of boundaries.\n"
+				:
+				cout << "\n>Matching value in that postion = " << hashMap.getValue(searchPos - 1) << endl;
+			break;
 
-			//case '7':	//Delete particular
-			//	if (myCollection.checkEmpty()) break;
-			//	cout << "Input the value of the element you wish to delete: ";  cin >> dataValue;
-			//	myCollection.deleteParticular(dataValue);
-			//	break;
+		case '4': //Count
+			if (hashMap.checkEmpty())
+				break;
+			cout << "\nThe element count is = " << hashMap.count() << " elements.\n";
+			break;
 
-			//case '8':	//Clear list
-			//	if (myCollection.checkEmpty())
-			//		break;
-			//	myCollection.deleteAll();
-			//	cout << "\n List is now clear, all elements deleted successfully\n";
-			//	break;
+		case '5': //Show all items
+			if (hashMap.checkEmpty())
+				break;
+			for (int i = 0; i < hashMap.count(); i++)
+				cout << "Item [" << i + 1 << "] = " << hashMap.getValue(i) << endl;
+			break;
+
+		case '6': //Update
+			if (hashMap.checkEmpty())
+				break;
+			cout << "Input the value of the element you wish to update: ";  cin >> dataValue;
+			hashMap.updateData(dataValue);
+			break;
+
+		case '7':	//Delete particular
+			if (hashMap.checkEmpty()) break;
+			cout << "Input the value of the element you wish to delete: ";  cin >> dataValue;
+			hashMap.deleteParticular(dataValue);
+			break;
+
+		case '8':	//Clear list
+			if (hashMap.checkEmpty())
+				break;
+			hashMap.deleteAll();
+			cout << "\n hashMap is now clear, all elements deleted successfully\n";
+			break;
 
 		case '9':	//Exit
 			cout << endl << "Successfully exited the program.\n";
