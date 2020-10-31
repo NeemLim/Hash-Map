@@ -97,9 +97,9 @@ public:
 			cout << "\n>No matching values." << endl;
 	}
 
-	void deleteParticular(T valueToDelete) //Deletes a particular element in the list.
+	bool deleteParticular(int dataPos) //Deletes a particular acoording to it's position.
 	{
-		int dataPos = getPosition(valueToDelete);
+		//int dataPos = getPosition(valueToDelete);
 
 		if (dataPos > -1) //If element was found, execute erase function.
 		{
@@ -121,10 +121,10 @@ public:
 				prevElement->link = erase->link;
 				delete erase;
 			}
-			cout << "\n>Value found and deleted successfully." << endl;
+			return true; //Value found and deleted sucessfully
 		}
 		else
-			cout << "\n>No matching values." << endl;
+			return false; //Value not found.
 	}
 
 	void deleteAll() //Clears list.
@@ -167,7 +167,7 @@ public:
 };
 
 template <class T>
-class cHash
+class cHash				//Controller Class.
 {
 	int encode(T uncodedStr)	//casts each character into int and returns the sum.
 	{
@@ -202,7 +202,14 @@ public:
 
 		return point;
 	}
-	void deleteParticular();
+	bool erase(list<T> linkedList[], T searchQuery, int bucketNum)
+	{
+		Coordinate elementCoord = search(linkedList, searchQuery, bucketNum); //Calls search function
+		int row = elementCoord.y,
+			column = elementCoord.x;
+
+		return linkedList[row].deleteParticular(column); //delete particular returns bool value
+	}
 };
 
 int main()
@@ -226,8 +233,8 @@ int main()
 			cout << endl << "Choose an option" << endl;
 			cout << "[1] Add data to the collection." << endl;
 			cout << "[2] Count total elements" << endl;
-			cout << "[3] Show value according to element's position." << endl;
-			cout << "[4] Show the elements' count." << endl;
+			cout << "[3] Search element in the list" << endl;
+			cout << "[4] Delete a particular element" << endl;
 			cout << "[5] Show all elements in the list." << endl;
 			cout << "[6] Encode data value." << endl;
 			cout << "[7] Erase an element in the collection." << endl;
@@ -275,7 +282,17 @@ int main()
 			else
 				cout << "No matching element.";
 			break;
-
+		case '4': //Delete.
+			cout << "Input the value of the element you wish to erase: "; getline(cin, itemValue);
+			{
+				bool elementDeleted;
+				elementDeleted = hashMap.erase(bucket, itemValue, bucketNum);
+				(elementDeleted) ?
+					cout << "Element found and deleted succesfully." << endl
+					:
+					cout << "No matching values." << endl;
+			}
+			break;
 			//case '2':	//Search
 			//	if (bucket.checkEmpty())
 			//		break;
