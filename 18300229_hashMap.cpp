@@ -178,6 +178,10 @@ class cHash				//Controller Class.
 		return code;
 	}
 public:
+	int getBucketNum()
+	{
+		return mbucketNum;
+	}
 	int getBucketPos(T uncodedStr)	//returns
 	{
 		int bucketPos = encode(uncodedStr) % mbucketNum;
@@ -221,12 +225,10 @@ public:
 int main()
 {
 	cHash<string> hashMap;
-	list<string> bucket[10];
+	int bucketNum = hashMap.getBucketNum(); //Gets the array size from class.
+	list<string>* bucket = new list<string>[bucketNum]; //Creates a size dynamic array with prev value.
 	string itemValue;
-	int searchPos = 0,
-		mbucketNum = 10,
-		bucketPos = 0,
-		allCount = 0;
+	int bucketPos = 0;
 	Coordinate elementCoord(0, 0);
 	do
 	{
@@ -271,10 +273,11 @@ int main()
 			break;
 
 		case '2':	//Count
-			allCount = hashMap.allCount(bucket);
+		{
+			int allCount = hashMap.allCount(bucket);
 			cout << "The total count of elements = " << allCount << endl;
-
-			break;
+		}
+		break;
 
 		case '3': //Search
 			if (hashMap.checkEmpty(bucket))
