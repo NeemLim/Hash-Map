@@ -137,10 +137,6 @@ public:
 			beginning = beginning->link;
 			delete erase;
 		}
-
-		int encode(string code)
-		{
-		}
 	}
 
 	bool checkEmpty() //Checks if count is 0.
@@ -151,6 +147,22 @@ public:
 			return true;
 		}
 		return false;
+	}
+
+	int encode(string uncodedStr)
+	{
+		int valuePos = getPosition(uncodedStr);
+
+		if (valuePos > -1) //If valuePos exists in the list.
+		{
+			int code = 0;
+			for (int i = 0; i < uncodedStr.size(); i++)
+				code += (int)uncodedStr[i];
+			return code;
+		}
+		else
+			cout << "no matching value";
+		return NULL;
 	}
 };
 
@@ -174,7 +186,7 @@ int main()
 			cout << "[3] Show value according to element's position." << endl;
 			cout << "[4] Show the elements' count." << endl;
 			cout << "[5] Show all elements in the list." << endl;
-			cout << "[6] Update data value." << endl;
+			cout << "[6] Encode data value." << endl;
 			cout << "[7] Erase an element in the collection." << endl;
 			cout << "[8] Delete everything" << endl;
 			cout << "[9] Exit." << endl;
@@ -195,10 +207,12 @@ int main()
 				{
 					cout << "Element [" << hashMap.count() + 1 << "]: ";
 					getline(cin, dataValue);
+
 					hashMap.addItem(dataValue);
 				}
 				GetAsyncKeyState; //Gets the current pressed key from the user.
 			}
+			cin.ignore();
 			break;
 
 		case '2':	//Search
@@ -237,8 +251,9 @@ int main()
 		case '6': //Update
 			if (hashMap.checkEmpty())
 				break;
-			cout << "Input the value of the element you wish to update: ";  cin >> dataValue;
-			hashMap.updateData(dataValue);
+			cout << "Input the value of the element you wish to encode: ";
+			getline(cin, dataValue);
+			cout << hashMap.encode(dataValue);
 			break;
 
 		case '7':	//Delete particular
@@ -259,7 +274,6 @@ int main()
 			return 0;
 			break;
 		}
-
 		cout << endl;
 		system("pause");
 	} while (1);	//Never ending loop
