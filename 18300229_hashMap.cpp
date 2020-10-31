@@ -150,6 +150,22 @@ public:
 	}
 };
 
+struct Coordinate
+{
+public:
+	int x, y;
+	Coordinate()
+	{
+		x = 0;
+		y = 0;
+	}
+	Coordinate(int x, int y)
+	{
+		this->x = x;
+		this->y = y;
+	}
+};
+
 template <class T>
 class cHash
 {
@@ -176,20 +192,15 @@ public:
 		}
 		return countSum;
 	}
-	void search(list<T> linkedList[], T searchQuery, int bucketNum)
+	//Pos search(list<T> linkedList[], int(*getBucketPos)(T uncodedStr, int bucketNum)) //Calls function as argument
+	Coordinate search(list<T> linkedList[], T searchQuery, int bucketNum)
 	{
-		int row = getBucketPos(searchQuery, bucketNum),
-			column = linkedList[row].getPosition(searchQuery);
+		Coordinate point;
 
-		if (column > -1)
-		{
-			cout << "\nElement found" << endl;
-			cout << " (X) Column --> " << column << endl;
-			cout << " (Y) Row --> " << row << endl;
-		}
-		else
-			cout << "Element not found";
+		point.y = getBucketPos(searchQuery, bucketNum);			//Gets row (bucket)
+		point.x = linkedList[point.y].getPosition(searchQuery);		//Gets column
 	}
+	void deleteParticular();
 };
 
 int main()
@@ -201,6 +212,7 @@ int main()
 		bucketNum = 10,
 		bucketPos = 0,
 		allCount = 0;
+	Coordinate elementPos;
 	do
 	{
 		char choice = 0;
@@ -246,11 +258,15 @@ int main()
 		case '2':	//Count
 			allCount = hashMap.allCount(bucket, bucketNum);
 			cout << "The total count of elements = " << allCount << endl;
+
 			break;
 
 		case '3': //Search
 			cout << "Input the value of the element you wish to search: "; getline(cin, itemValue);
-			hashMap.search(bucket, itemValue, bucketNum);
+
+			//cout << "\nElement found" << endl;
+			//cout << " (X) Column --> " << column << endl;
+			//cout << " (Y) Row --> " << row << endl;
 			break;
 
 			//case '2':	//Search
