@@ -210,6 +210,12 @@ public:
 
 		return linkedList[row].deleteParticular(column); //delete particular returns bool value
 	}
+	bool checkEmpty(list<T> linkedList[], int bucketNum)
+	{
+		if (allCount(linkedList, bucketNum) == 0)
+			return true;
+		return false;
+	}
 };
 
 int main()
@@ -271,18 +277,28 @@ int main()
 			break;
 
 		case '3': //Search
+			if (hashMap.checkEmpty(bucket, bucketNum))
+			{
+				cout << "Hash Map is empty." << endl;
+				break;
+			}
 			cout << "Input the value of the element you wish to search: "; getline(cin, itemValue);
 			elementCoord = hashMap.search(bucket, itemValue, bucketNum);
 			if (elementCoord.x > -1) //If element was found
 			{
 				cout << "\nMatching element." << endl;
-				cout << " (Y) Row (bucket) --> " << elementCoord.y << endl;
-				cout << " (X) Column --> " << elementCoord.x << endl;
+				cout << " (Y) Row (bucket) --> " << elementCoord.y + 1 << endl;	//add 1 to display a understandable position
+				cout << " (X) Column --> " << elementCoord.x + 1 << endl;
 			}
 			else
 				cout << "No matching element.";
 			break;
 		case '4': //Delete.
+			if (hashMap.checkEmpty(bucket, bucketNum))
+			{
+				cout << "Hash Map is empty." << endl;
+				break;
+			}
 			cout << "Input the value of the element you wish to erase: "; getline(cin, itemValue);
 			{
 				bool elementDeleted;
