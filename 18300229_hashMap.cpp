@@ -2,6 +2,8 @@
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
+#include <string>
+#include <stdio.h>
 using namespace std;
 
 template <class T>
@@ -10,7 +12,7 @@ class List	//Contains the activities of the list.
 	class Node //Creates or nodes.
 	{
 	public:
-		T data = NULL; //Holds a generic data value.
+		T data;  //Holds a generic data value.
 		Node* link; //Points to the next element.
 		Node()
 		{
@@ -26,7 +28,7 @@ public:
 		beginning = nullptr;
 	}
 
-	void push(T data) //Adds an element to the list.
+	void addItem(T data) //Adds an element to the list.
 	{
 		Node* newNode, * cursor;
 		newNode = new Node();
@@ -42,7 +44,7 @@ public:
 			cursor->link = newNode;
 		}
 	}
-	T getValue(T index)	//
+	T getValue(int index)	//returns value of data in a certain position.
 	{
 		if (count() > index)
 		{
@@ -113,7 +115,7 @@ public:
 			cout << "\n>No matching values." << endl;
 	}
 
-	void pop(T valueToDelete) //Deletes a particular element in the list.
+	void deleteParticular(T valueToDelete) //Deletes a particular element in the list.
 	{
 		int dataPos = getPosition(valueToDelete);
 
@@ -168,9 +170,9 @@ public:
 
 int main()
 {
-	List<int> myCollection;
-	int dataValue = 0,
-		searchPos = 0;
+	List<string> myCollection;
+	string dataValue;
+	int searchPos = 0;
 	do
 	{
 		char choice = 0;
@@ -205,38 +207,38 @@ int main()
 				if ((GetAsyncKeyState(VK_LCONTROL)) == false)
 				{
 					cout << "Element [" << myCollection.count() + 1 << "]: ";
-					cin >> dataValue;
-					myCollection.push(dataValue);
+					getline(cin, dataValue);
+					myCollection.addItem(dataValue);
 				}
 				GetAsyncKeyState; //Gets the current pressed key from the user.
 			}
 			break;
 
-		case '2':	//Search
-			if (myCollection.checkEmpty())
-				break;
-			cout << "Input the value of the element you wish to search: "; cin >> dataValue;
-			(myCollection.getPosition(dataValue) == -1) ?
-				cout << "\nNo matches have been found.\n"
-				:
-				cout << "\n>Matching value found \n";
-			break;
+			//case '2':	//Search
+			//	if (myCollection.checkEmpty())
+			//		break;
+			//	cout << "Input the value of the element you wish to search: "; cin >> dataValue;
+			//	(myCollection.getPosition(dataValue) == -1) ?
+			//		cout << "\nNo matches have been found.\n"
+			//		:
+			//		cout << "\n>Matching value found \n";
+			//	break;
 
-		case '3': //Show Value
-			if (myCollection.checkEmpty())
-				break;
-			cout << "Input the position of the element you wish to search: "; cin >> searchPos;
-			(searchPos > myCollection.count() or searchPos <= 0) ?
-				cout << "\n>Out of boundaries.\n"
-				:
-				cout << "\n>Matching value in that postion = " << myCollection.getValue(searchPos - 1) << endl;
-			break;
+			//case '3': //Show Value
+			//	if (myCollection.checkEmpty())
+			//		break;
+			//	cout << "Input the position of the element you wish to search: "; cin >> searchPos;
+			//	(searchPos > myCollection.count() or searchPos <= 0) ?
+			//		cout << "\n>Out of boundaries.\n"
+			//		:
+			//		cout << "\n>Matching value in that postion = " << myCollection.getValue(searchPos - 1) << endl;
+			//	break;
 
-		case '4': //Count
-			if (myCollection.checkEmpty())
-				break;
-			cout << "\nThe element count is = " << myCollection.count() << " elements.\n";
-			break;
+			//case '4': //Count
+			//	if (myCollection.checkEmpty())
+			//		break;
+			//	cout << "\nThe element count is = " << myCollection.count() << " elements.\n";
+			//	break;
 
 		case '5': //Show all items
 			if (myCollection.checkEmpty())
@@ -245,25 +247,25 @@ int main()
 				cout << "Item [" << i + 1 << "] = " << myCollection.getValue(i) << endl;
 			break;
 
-		case '6': //Update
-			if (myCollection.checkEmpty())
-				break;
-			cout << "Input the value of the element you wish to update: ";  cin >> dataValue;
-			myCollection.updateData(dataValue);
-			break;
+			//case '6': //Update
+			//	if (myCollection.checkEmpty())
+			//		break;
+			//	cout << "Input the value of the element you wish to update: ";  cin >> dataValue;
+			//	myCollection.updateData(dataValue);
+			//	break;
 
-		case '7':	//Delete particular
-			if (myCollection.checkEmpty()) break;
-			cout << "Input the value of the element you wish to delete: ";  cin >> dataValue;
-			myCollection.pop(dataValue);
-			break;
+			//case '7':	//Delete particular
+			//	if (myCollection.checkEmpty()) break;
+			//	cout << "Input the value of the element you wish to delete: ";  cin >> dataValue;
+			//	myCollection.deleteParticular(dataValue);
+			//	break;
 
-		case '8':	//Clear list
-			if (myCollection.checkEmpty())
-				break;
-			myCollection.deleteAll();
-			cout << "\n List is now clear, all elements deleted successfully\n";
-			break;
+			//case '8':	//Clear list
+			//	if (myCollection.checkEmpty())
+			//		break;
+			//	myCollection.deleteAll();
+			//	cout << "\n List is now clear, all elements deleted successfully\n";
+			//	break;
 
 		case '9':	//Exit
 			cout << endl << "Successfully exited the program.\n";
