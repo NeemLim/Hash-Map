@@ -338,7 +338,7 @@ int main()
 			}
 			for (int i = 0; i < bucketNum; i++)
 			{
-				int nDigits = floor(log10(abs(i + 1))) + 1;
+				int nDigits = floor(log10((i + 1))) + 1;
 				cout << "Bucket[" << i + 1 << "]" << right << setw(5 - nDigits) << "= ";
 				hashMap.showRow(i);
 				cout << endl;
