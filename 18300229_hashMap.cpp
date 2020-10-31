@@ -199,6 +199,8 @@ public:
 
 		point.y = getBucketPos(searchQuery, bucketNum);			//Gets row (bucket)
 		point.x = linkedList[point.y].getPosition(searchQuery);		//Gets column
+
+		return point;
 	}
 	void deleteParticular();
 };
@@ -212,7 +214,7 @@ int main()
 		bucketNum = 10,
 		bucketPos = 0,
 		allCount = 0;
-	Coordinate elementPos;
+	Coordinate elementCoord(0, 0);
 	do
 	{
 		char choice = 0;
@@ -263,10 +265,15 @@ int main()
 
 		case '3': //Search
 			cout << "Input the value of the element you wish to search: "; getline(cin, itemValue);
-
-			//cout << "\nElement found" << endl;
-			//cout << " (X) Column --> " << column << endl;
-			//cout << " (Y) Row --> " << row << endl;
+			elementCoord = hashMap.search(bucket, itemValue, bucketNum);
+			if (elementCoord.x > -1) //If element was found
+			{
+				cout << "\nMatching element." << endl;
+				cout << " (Y) Row (bucket) --> " << elementCoord.y << endl;
+				cout << " (X) Column --> " << elementCoord.x << endl;
+			}
+			else
+				cout << "No matching element.";
 			break;
 
 			//case '2':	//Search
