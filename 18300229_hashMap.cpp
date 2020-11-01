@@ -224,7 +224,7 @@ public:
 
 		return linkedList[row].deleteParticular(column); //delete particular returns bool value
 	}
-	bool checkEmpty()
+	bool checkEmpty()	//returns true if no elements are present
 	{
 		if (allCount() == 0)
 			return true;
@@ -263,13 +263,10 @@ int main()
 			cout << "[3] Search element in the list" << endl;
 			cout << "[4] Delete a particular element" << endl;
 			cout << "[5] Show all elements in the list." << endl;
-			cout << "[6] Encode data value." << endl;
-			cout << "[7] Erase an element in the collection." << endl;
-			cout << "[8] Delete everything" << endl;
-			cout << "[9] Exit." << endl;
+			cout << "[6] Exit." << endl;
 			cout << ">Answer: "; choice = _getch();
 			system("cls");
-		} while (choice < 49 or choice > 57); //ASCII from 1 to 9.
+		} while (choice < 49 or choice > 54); //ASCII from 1 to 6.
 
 		switch (choice)
 		{
@@ -282,8 +279,11 @@ int main()
 			{
 				if ((GetAsyncKeyState(VK_LCONTROL)) == false)
 				{
-					cout << "Add element: ";
-					getline(cin, itemValue);
+					cout << "Element[" << hashMap.allCount() + 1 << "]: ";
+					do
+					{
+						getline(cin, itemValue);
+					} while (itemValue == "");
 					hashMap.addItem(itemValue);
 				}
 				GetAsyncKeyState; //Gets the current pressed key from the user.
@@ -293,14 +293,14 @@ int main()
 		case '2':	//Count
 		{
 			int allCount = hashMap.allCount();
-			cout << "The total count of elements = " << allCount << endl;
+			cout << "\n>The total count of elements = " << allCount << endl;
 		}
 		break;
 
 		case '3': //Search
 			if (hashMap.checkEmpty())
 			{
-				cout << "Hash Map is empty." << endl;
+				cout << "\n>Hash Map is empty." << endl;
 				break;
 			}
 			cout << "Input the value of the element you wish to search: "; getline(cin, itemValue);
@@ -312,12 +312,12 @@ int main()
 				cout << " (X) Column --> " << elementCoord.x + 1 << endl;
 			}
 			else
-				cout << "No matching element.";
+				cout << "\n>No matching element.";
 			break;
 		case '4': //Delete.
 			if (hashMap.checkEmpty())
 			{
-				cout << "Hash Map is empty." << endl;
+				cout << "\n>Hash Map is empty." << endl;
 				break;
 			}
 			cout << "Input the value of the element you wish to erase: "; getline(cin, itemValue);
@@ -325,28 +325,28 @@ int main()
 				bool elementDeleted;
 				elementDeleted = hashMap.erase(itemValue);
 				(elementDeleted) ?
-					cout << "Element found and deleted succesfully." << endl
+					cout << "\n>Element found and deleted succesfully." << endl
 					:
-					cout << "No matching values." << endl;
+					cout << "\n>No matching values." << endl;
 			}
 			break;
 		case '5': //Delete.
 			if (hashMap.checkEmpty())
 			{
-				cout << "Hash Map is empty." << endl;
+				cout << "\n>Hash Map is empty." << endl;
 				break;
 			}
 			for (int i = 0; i < bucketNum; i++)
 			{
-				int nDigits = floor(log10((i + 1))) + 1;
-				cout << "Bucket[" << i + 1 << "]" << right << setw(5 - nDigits) << "= ";
+				int nDigits = floor(log10((i + 1))) + 1; //calculates the number of digits in the position
+				cout << "Bucket[" << i + 1 << "]" << right << setw(6 - nDigits) << "= ";	//centers the output
 				hashMap.showRow(i);
 				cout << endl;
 			}
 			break;
 
-		case '9':	//Exit
-			cout << endl << "Successfully exited the program.\n";
+		case '6':	//Exit
+			cout << "\n>Successfully exited the program.\n";
 			return 0;
 			break;
 		}
