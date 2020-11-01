@@ -241,7 +241,7 @@ int main()
 					do
 					{
 						getline(cin, itemValue);
-					} while (itemValue == "");
+					} while (itemValue.empty());
 					hashMap.addItem(itemValue);
 				}
 				GetAsyncKeyState; //Gets the current pressed key from the user.
