@@ -7,7 +7,7 @@
 #include <iomanip>
 using namespace std;
 
-template <class T>
+template <class T>	//Generic data type.
 class list	//Contains the activities of the list.
 {
 	class Node //Creates or nodes.
@@ -79,25 +79,6 @@ public:
 		return elementCount;
 	}
 
-	void updateData(T valueToUpdate) //Changes the value of an element in the list.
-	{
-		int valuePos = getPosition(valueToUpdate);
-
-		if (valuePos > -1) //If valuePos exists in the list.
-		{
-			int valueToReplace;
-			Node* cursor = beginning;
-			cout << "Input the updated value: "; cin >> valueToReplace;
-			for (int i = 0; i < valuePos; i++)
-				cursor = cursor->link;
-			cursor->data = valueToReplace;
-
-			cout << "\n>Value replaced successfully." << endl;
-		}
-		else
-			cout << "\n>No matching values." << endl;
-	}
-
 	bool deleteParticular(int dataPos) //Deletes a particular acoording to it's position.
 	{
 		//int dataPos = getPosition(valueToDelete);
@@ -127,31 +108,9 @@ public:
 		else
 			return false; //Value not found.
 	}
-
-	void deleteAll() //Clears list.
-	{
-		Node* erase;
-
-		while (beginning) //Deletes from first to last while link not null.
-		{
-			erase = beginning;
-			beginning = beginning->link;
-			delete erase;
-		}
-	}
-
-	bool checkEmpty() //Checks if count is 0.
-	{
-		if (count() == 0)
-		{
-			cout << "List is empty." << endl;
-			return true;
-		}
-		return false;
-	}
 };
 
-struct Coordinate
+struct Coordinate	//strucuture to return position on a HashMap method.
 {
 public:
 	int x, y;
@@ -186,18 +145,18 @@ private:
 		return bucketPos;
 	}
 public:
-	int getBucketNum()
+	int getBucketNum()	//getter to number of buckets.
 	{
 		return mBucketNum;
 	}
-	void addItem(T uncodedData)
+	void addItem(T uncodedData)	//calls enconde function and adds that to a list in the array
 	{
 		int bucketPos = getBucketPos(uncodedData);
 
 		linkedList[bucketPos].addItem(uncodedData);
 	}
 
-	int allCount()
+	int allCount()	//returns sum of the elements in each bucket.
 	{
 		int countSum = 0;
 
@@ -207,16 +166,16 @@ public:
 		}
 		return countSum;
 	}
-	Coordinate search(T searchQuery)
+	Coordinate search(T searchQuery)	//Returns x and y position of the argument.
 	{
 		Coordinate point;
 
-		point.y = getBucketPos(searchQuery);			//Gets row (bucket)
+		point.y = getBucketPos(searchQuery);	//Gets row (bucket)
 		point.x = linkedList[point.y].getPosition(searchQuery);		//Gets column
 
 		return point;
 	}
-	bool erase(T searchQuery)
+	bool erase(T searchQuery)	//erase and element according to it's value
 	{
 		Coordinate elementCoord = search(searchQuery); //Calls search function
 		int row = elementCoord.y,
@@ -230,7 +189,7 @@ public:
 			return true;
 		return false;
 	}
-	void showRow(int rowNum)
+	void showRow(int rowNum)	//shows each value of each bucket.
 	{
 		int rowItemCount = linkedList[rowNum].count(); //Count of item in said rows.
 		for (int i = 0; i < rowItemCount; i++)
@@ -271,7 +230,6 @@ int main()
 		switch (choice)
 		{
 		case '1':	//Add
-
 			cout << endl << "*** Press <Left control Key> on your last the data input to finish filling. ***" << endl;
 			cout << "*** Data input will automatically stop after 100 elements." << endl << endl;
 			cout << "Fill the array: " << endl;
@@ -338,7 +296,7 @@ int main()
 			}
 			for (int i = 0; i < bucketNum; i++)
 			{
-				int nDigits = floor(log10((i + 1))) + 1; //calculates the number of digits in the position
+				double nDigits = floor(log10(abs((i + 1)))) + 1; //calculates the number of digits in the position
 				cout << "Bucket[" << i + 1 << "]" << right << setw(6 - nDigits) << "= ";	//centers the output
 				hashMap.showRow(i);
 				cout << endl;
